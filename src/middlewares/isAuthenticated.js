@@ -1,40 +1,43 @@
-import { verifyJWT } from "../uitls/jwt"
+import { verifyJWT } from "../uitls/jwt";
 
-const isAuthenticated = (req,res,next)=>{
-    let message = {
+const isAuthenticated = (req, res, next) => {
+  let message = {
+    success: false,
+    data: null,
+    message: "",
+  };
+  const bearerToken =
+    req.headers["x-access-token"] || req.headers["Authorization"];
+  const token = bearerToken && bearerToken.split(" ")[1];
+  try {
+    if (!token) {
+      message = {
         success: false,
-        data:null,
-        message:''
+        data: null,
+        message: "Access token not found",
+      };
+      return res.status(403).send(message);
     }
-    const bearerToken = req.headers['x-access-token'] || req.headers['Authorization']
-    const token = bearerToken && bearerToken.split(' ')[1]
-    console.log("Bearer token: " + bearerToken)
-    console.log("Token: "+ token)
-    try {
-        if(!token){
-            message = {
-                success:false,
-                data: null,
-                message:'Access token not found'
-            }
-            return res.send(message)
-        }
-        const tokenVerification = verifyJWT(token)
-        console.log(tokenVerification)
-       if(tokenVerification){
-            next() 
-        }else{
-            message = {
-                success:false,
-                data: null,
-                message:'Token Expired'
-            }
-            return res.send(message)
-        }
-    } catch (error) {
-        console.log(error.message)
+    const tokenVerification = verifyJWT(token);
+    if (tokenVerification) {
+      req.user = tokenVerification;
+      next();
+    } else {
+      message = {
+        success: false,
+        data: null,
+        message: "Token Expired",
+      };
+      return res.status(440).send(message);
     }
-    
-}
+  } catch (error) {
+    message = {
+      success: false,
+      data: null,
+      message: error.message,
+    };
+    response.send(message);
+  }
+};
 
-export default isAuthenticated
+export default isAuthenticated;

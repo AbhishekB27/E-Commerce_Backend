@@ -9,11 +9,11 @@ const createJWT = (payload) => {
 
 // token verification
 const verifyJWT = (token) => {
-  const data = jwt.verify(token, secretKey,(err,verified)=>{
-    if(err){
-      return false
+  const data = jwt.verify(token, secretKey, (err, verified) => {
+    if (err) {
+      return false;
     }
-    return verified
+    return verified;
   });
   return data;
 };
