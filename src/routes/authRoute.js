@@ -1,4 +1,4 @@
-import express, { response } from "express";
+import express from "express";
 import { User } from "../services/mongoDB/models/User";
 import { body, validationResult } from "express-validator";
 import { verifyPassword } from "../uitls/password";
@@ -135,7 +135,7 @@ router1.post(
 router1.get("/userProfile", isAuthenticated, async (req, res) => {
   try {
     const { email } = req.user;
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email: email })
     message = {
       success: true,
       data: user,

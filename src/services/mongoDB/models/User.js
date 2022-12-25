@@ -31,13 +31,7 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-  },
-  addresses: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Address",
-    },
-  ],
+  }
 });
 
 UserSchema.pre("save", async function (next) {

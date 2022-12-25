@@ -36,7 +36,7 @@ const isAuthenticated = (req, res, next) => {
       data: null,
       message: error.message,
     };
-    response.send(message);
+    return res.send(message);
   }
 };
 
