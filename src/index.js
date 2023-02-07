@@ -3,6 +3,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import authRoute from "./routes/authRoute";
 import addressRoute from "./routes/addressRoute";
+import productRoute from "./routes/productRoute";
+import reviewRoute from "./routes/reviewRoute";
+import stripeRoute from "./routes/stripeCheckout";
 import connectDB from "./services/mongoDB/connectDB";
 
 const app = express();
@@ -14,6 +17,9 @@ const PORT = process.env.PORT || 3000;
 
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/address", addressRoute);
+app.use("/api/v1/product", productRoute);
+app.use("/api/v1/review", reviewRoute);
+app.use("/api/v1/stripe", stripeRoute);
 
 app.listen(PORT, () => {
   console.log("Server is running on " + PORT);

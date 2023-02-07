@@ -18,10 +18,9 @@ router2.post(
   body("fullName").isLength({ max: 30 }),
   body("state").isLength({ max: 20 }),
   body("city").isLength({ max: 20 }),
-  body("pincode").isLength({ min: 6 }),
-  body("houseNumber").isLength({ max: 20 }),
-  body("areaName").isLength({ max: 30 }),
-  body("mobileNumber")
+  body("zip").isLength({ min: 6 }),
+  body("address").isLength({ max: 150 }),
+  body("contactNumber")
     .isNumeric()
     .isLength({ minx: 10 })
     .withMessage("Please enter 10 digit number"),
@@ -72,11 +71,34 @@ router2.get("/user/:userId", isAuthenticated, async (req, res) => {
     }
   } catch (error) {
     message = {
-      success: true,
+      success: false,
       data: null,
       message: error.message,
     };
     res.status(401).send(message);
   }
 });
+
+//delete address by addressId
+router2.delete('/delete/:addressId',async(req,res)=>{
+  try {
+    const {addressId} = req.params;
+    const deletedAddress = await Address.findByIdAndDelete({_id: addressId})
+    if(deletedAddress) {
+      message = {
+        success: true,
+        data: deletedAddress,
+        message: 'Successfully Deleted Address',
+      };
+     return res.status(200).send(message);   
+    }
+  } catch (error) {
+    message = {
+      success: false,
+      data: null,
+      message: error.message,
+    };
+    return res.status(401).send(message);
+  }
+})
 export default router2;

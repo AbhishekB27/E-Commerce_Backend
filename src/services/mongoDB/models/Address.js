@@ -5,6 +5,10 @@ const AddressSchema = new mongoose.Schema({
         type:String,
         required:true,
     },
+    addressTitle:{
+        type:String,
+        required:true,
+    },
     state:{
         type:String,
         required:true,
@@ -13,25 +17,25 @@ const AddressSchema = new mongoose.Schema({
         type:String,
         required:true,
     },
-    pincode:{
+    country:{
+        type:String,
+        required:true,
+    },
+    zip:{
         type:Number,
         required:true,
     },
-    houseNumber:{
+    addressType:{
         type:String,
-        required:true
+        enum:['home','office'],
+        default:'home'
     },
-    areaName:{
-        type:String,
-        required:true
-    },
-    type:{
-        type:String,
-        enum:['home','work'],
-        default:'Home'
-    },
-    mobileNumber:{
+    contactNumber:{
         type:Number,
+        required:true
+    },
+    address:{
+        type:String,
         required:true
     },
     user:{
