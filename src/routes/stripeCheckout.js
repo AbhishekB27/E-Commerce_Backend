@@ -83,7 +83,7 @@ router5.post("/create-checkout-session", async (req, res) => {
     return res.send(message);
   }
 });
-router5.post("/webhook", async (req, res) => {
+router5.post('/webhook', async (req, res) => {
   // const endpointSecret = "whsec_7244b7f8c2d319c23c7a48e4d6ecd03db3e2bc48f8bdc9a573f6625d088894af";
   // const sig = req.headers['stripe-signature'];
   const payloadString = JSON.stringify(req.body, null, 2);
@@ -102,10 +102,12 @@ router5.post("/webhook", async (req, res) => {
   if (event.type === "checkout.session.completed") {
     try {
       const paymentIntent = event.data.object;
+      // console.log(paymentIntent.total_details)
       const newOrder = new Order({
         customerId: paymentIntent.metadata.userId,
         paymentIntentId: paymentIntent.payment_intent,
         products: JSON.parse(paymentIntent.metadata.items),
+        shippingAmount: paymentIntent.total_details.amount_shipping,
         subTotal: paymentIntent.amount_subtotal,
         total: paymentIntent.amount_total,
         shippingInfo: paymentIntent.customer_details,

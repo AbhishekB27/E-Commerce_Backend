@@ -157,17 +157,24 @@ router1.put("/update/:id", isAuthenticated, async (req, res) => {
   try {
     const { id } = req.params;
     const data = req.body;
-    const updatedUser = await User.findByIdAndUpdate(
-      { _id: id },
-      { ...data },
-      { new: true }
-    ); // new: true return updated Object otherwise return previous Object
-    message = {
-      success: true,
-      data: updatedUser,
-      message: "Successfully updated😊",
-    };
-    res.send(message);
+    let updatedUser = await User.findByIdAndUpdate( { _id: id } ); 
+    console.log(updatedUser)
+    if(!updatedUser){
+      message = {
+        success: false,
+        data: null,
+        message: "No Document Found",
+      };
+      return res.send(message);
+    }
+      updatedUser.set(data)
+      updatedUser = await updatedUser.save() 
+      message = {
+        success: true,
+        data: updatedUser,
+        message: "Successfully updated😊",
+      };
+      return res.send(message);
   } catch (error) {
     message = {
       success: false,

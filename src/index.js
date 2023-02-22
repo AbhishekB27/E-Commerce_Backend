@@ -6,6 +6,7 @@ import addressRoute from "./routes/addressRoute";
 import productRoute from "./routes/productRoute";
 import reviewRoute from "./routes/reviewRoute";
 import stripeRoute from "./routes/stripeCheckout";
+import ordersRoute from "./routes/ordersRoute";
 import connectDB from "./services/mongoDB/connectDB";
 
 const app = express();
@@ -20,6 +21,7 @@ app.use("/api/v1/address", addressRoute);
 app.use("/api/v1/product", productRoute);
 app.use("/api/v1/review", reviewRoute);
 app.use("/api/v1/stripe", stripeRoute);
+app.use("/api/v1/orders", ordersRoute);
 
 app.listen(PORT, () => {
   console.log("Server is running on " + PORT);
